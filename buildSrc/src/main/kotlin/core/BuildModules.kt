@@ -8,7 +8,7 @@ object BuildModules {
     const val CORE = ":core"
 
     object Features {
-        const val HOME = ":features:home"
+        const val NEWS_LIST = ":features:newsList"
         const val CHARACTERS_LIST = ":features:characters_list"
         const val CHARACTERS_FAVORITES = ":features:characters_favorites"
     }
@@ -19,6 +19,8 @@ object BuildModules {
     }
 
     object Libraries {
+
+        const val NEWS_API = ":libraries:newsapi"
 
         object MerseyLibs {
             const val archy = ":archy"

@@ -1,31 +1,20 @@
-
-
 package com.merseyside.core.di.modules
 
 import com.merseyside.core.BuildConfig
-import com.merseyside.core.di.CoreComponent
+import com.merseyside.core.NewsRepository
+import com.merseyside.core.db.news.NewsDao
+import com.merseyside.core.network.repository.NewsRepositoryImpl
+import com.merseyside.core.network.repository.mapper.NewsMapper
+import com.merseyside.newsapi.NewsApi
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-/**
- * Class that contributes to the object graph [CoreComponent].
- *
- * @see Module
- */
 @Module
 class NetworkModule {
 
-    /**
-     * Create a provider method binding for [HttpLoggingInterceptor].
-     *
-     * @return Instance of http interceptor.
-     * @see Provides
-     */
     @Singleton
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
@@ -34,12 +23,6 @@ class NetworkModule {
         return httpLoggingInterceptor
     }
 
-    /**
-     * Create a provider method binding for [OkHttpClient].
-     *
-     * @return Instance of http client.
-     * @see Provides
-     */
     @Singleton
     @Provides
     fun provideHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -50,37 +33,19 @@ class NetworkModule {
         return clientBuilder.build()
     }
 
-    /**
-     * Create a provider method binding for [Retrofit].
-     *
-     * @return Instance of retrofit.
-     * @see Provides
-     */
     @Singleton
     @Provides
-    fun provideRetrofitBuilder() =
-        Retrofit.Builder()
-            .baseUrl("baseUrl")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    fun provideNewsApi(okHttpClient: OkHttpClient): NewsApi {
+        return NewsApi(okHttpClient)
+    }
 
-    /**
-     * Create a provider method binding for [MarvelService].
-     *
-     * @return Instance of marvel service.
-     * @see Provides
-     */
-//    @Singleton
-//    @Provides
-//    fun provideService(retrofit: Retrofit) = retrofit.create(MarvelService::class.java)
-//
-//    /**
-//     * Create a provider method binding for [MarvelRepository].
-//     *
-//     * @return Instance of marvel repository.
-//     * @see Provides
-//     */
-//    @Singleton
-//    @Provides
-//    fun provideRepository(service: MarvelService) = MarvelRepository(service)
+    @Singleton
+    @Provides
+    fun provideRepository(
+        newsApi: NewsApi,
+        newsDao: NewsDao,
+        newsMapper: NewsMapper
+    ): NewsRepository = NewsRepositoryImpl(
+        newsApi, newsDao, newsMapper, BuildConfig.PAGE_SIZE
+    )
 }

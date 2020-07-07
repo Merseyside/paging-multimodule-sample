@@ -14,5 +14,6 @@ interface Mapper<F, T> {
      * @param from Initial object to from mapping.
      * @return An Object containing the results of applying the transformation.
      */
-    suspend fun map(from: F): T
+    fun map(from: F): T
+
 }

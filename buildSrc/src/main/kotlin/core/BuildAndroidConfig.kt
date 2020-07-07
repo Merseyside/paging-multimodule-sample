@@ -4,7 +4,7 @@
  * Configuration of android build
  */
 object BuildAndroidConfig {
-    const val APPLICATION_ID = "com.merseyside.template"
+    const val APPLICATION_ID = "com.merseyside.news"
 
     const val BUILD_TOOLS_VERSION = "29.0.2"
     const val COMPILE_SDK_VERSION = 29

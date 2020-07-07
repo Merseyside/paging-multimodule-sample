@@ -1,3 +1,4 @@
+include(":libraries:newsapi")
 enableFeaturePreview("GRADLE_METADATA")
 
 include(
@@ -5,7 +6,8 @@ include(
     ":core",
     ":commons:ui",
     ":commons:views",
-    ":features:home"
+    ":features:newsList",
+    ":libraries:newsapi"
 )
 
 private val isLocalDependencies = true
@@ -30,5 +32,5 @@ if (isLocalDependencies) {
 
 }
 
-rootProject.name="android-template"
+rootProject.name="paging-sample"
 rootProject.buildFileName = "build.gradle.kts"

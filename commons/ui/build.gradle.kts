@@ -10,6 +10,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(BuildModules.CORE))
+
     implementation(Dependencies.LIFECYCLE_EXTENSIONS)
     implementation(Dependencies.LIFECYCLE_VIEWMODEL)
     implementation(Dependencies.CONSTRAIN_LAYOUT)

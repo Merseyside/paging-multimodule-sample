@@ -13,19 +13,14 @@ sealed class NetworkState {
      * @param isAdditional Is additional request.
      * @param isEmptyResponse Is the body of response empty.
      */
-    data class Success(
-        val isAdditional: Boolean = false,
-        val isEmptyResponse: Boolean = false
-    ) : NetworkState()
+     object Success : NetworkState()
 
     /**
      * Loading network state.
      *
      * @param isAdditional Is additional request.
      */
-    data class Loading(
-        val isAdditional: Boolean = false
-    ) : NetworkState()
+    object Loading: NetworkState()
 
     /**
      * Error network state.
@@ -33,7 +28,8 @@ sealed class NetworkState {
      * @param isAdditional Is additional request.
      */
     data class Error(
-        val isAdditional: Boolean = false
+        val throwable: Throwable,
+        val msg: String?
     ) : NetworkState()
 
     // ============================================================================================

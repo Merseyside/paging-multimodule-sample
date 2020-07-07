@@ -80,7 +80,7 @@ android {
     }
 
     dynamicFeatures = mutableSetOf(
-        ":features:home"
+        BuildModules.Features.NEWS_LIST
     )
 }
 
