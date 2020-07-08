@@ -15,11 +15,12 @@
         android:layout_height="match_parent">
 
         <com.merseyside.archy.presentation.view.merseyRecyclerView.MerseyRecyclerView
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:pagedList="@{viewModel.newsPagedList}" />
+            app:pagedList="@{viewModel.listObservableField}" />
 
     </LinearLayout>
 

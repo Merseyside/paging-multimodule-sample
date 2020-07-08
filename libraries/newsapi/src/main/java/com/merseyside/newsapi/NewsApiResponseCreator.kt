@@ -1,19 +1,18 @@
 package com.merseyside.newsapi
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.merseyside.newsapi.response.NewsPageResponse
 import com.merseyside.newsapi.service.NewsService
-import com.merseyside.utils.serialization.deserialize
+import com.merseyside.utils.Logger
+import com.merseyside.utils.ext.log
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.HttpUrl
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONObject
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class NewsApiResponseCreator(client: OkHttpClient.Builder) {
 
@@ -54,6 +53,15 @@ class NewsApiResponseCreator(client: OkHttpClient.Builder) {
     }
 
     suspend fun getNews(page: Int): NewsPageResponse {
-        return newsService.getNews(page)
+        val response = newsService.getNews(page)
+
+        if (response.isSuccessful) {
+            return response.body()!!
+        } else {
+            Logger.log(this, "here")
+            val error = APIError.getError(response.errorBody()?.string()).log()
+
+            throw Exception(response.errorBody().toString())
+        }
     }
 }

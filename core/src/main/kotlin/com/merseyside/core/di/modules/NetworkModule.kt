@@ -1,10 +1,12 @@
 package com.merseyside.core.di.modules
 
+import android.content.Context
 import com.merseyside.core.BuildConfig
 import com.merseyside.core.NewsRepository
 import com.merseyside.core.db.news.NewsDao
 import com.merseyside.core.network.repository.NewsRepositoryImpl
 import com.merseyside.core.network.repository.mapper.NewsMapper
+import com.merseyside.core.utils.ConnectivityInterceptor
 import com.merseyside.newsapi.NewsApi
 import dagger.Module
 import dagger.Provides
@@ -25,10 +27,22 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient.Builder {
+    fun provideConnectionInterceptor(context: Context): ConnectivityInterceptor {
+        return ConnectivityInterceptor(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        connectivityInterceptor: ConnectivityInterceptor
+    ): OkHttpClient.Builder {
         val clientBuilder = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
-            clientBuilder.addInterceptor(interceptor)
+            clientBuilder.apply {
+                addInterceptor(loggingInterceptor)
+                addInterceptor(connectivityInterceptor)
+            }
         }
         return clientBuilder
     }
@@ -46,6 +60,6 @@ class NetworkModule {
         newsDao: NewsDao,
         newsMapper: NewsMapper
     ): NewsRepository = NewsRepositoryImpl(
-        newsApi, newsDao, newsMapper, BuildConfig.PAGE_SIZE
+        newsApi, newsDao, newsMapper
     )
 }

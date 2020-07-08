@@ -16,28 +16,42 @@ import com.merseyside.core.network.repository.mapper.NewsMapper
 import com.merseyside.newsapi.NewsApi
 import com.merseyside.newsapi.response.NewsPageResponse
 import com.merseyside.utils.Logger
+import com.merseyside.utils.ext.log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
 
 class NewsRepositoryImpl(
     private val newsApi: NewsApi,
     private val newsDao: NewsDao,
-    private val newsMapper: NewsMapper,
-    private val pageSize: Int
+    private val newsMapper: NewsMapper
 ): NewsRepository {
 
     private val ioExecutor = Executors.newSingleThreadExecutor()
 
-    override fun getNews(page: Int): Listing<NewsEntity> {
+    override suspend fun getNews(): Listing<NewsEntity> {
+
+        suspend fun getLastPage(): Int {
+            return withContext(Dispatchers.IO) {
+                val page = newsDao.getLastLoadedPage().log()
+
+                if (page <= 0) 1
+                else page
+            }
+        }
+
+        val lastPage = getLastPage()
+
         val boundaryCallback = NewsBoundaryCallback(
             newsApi = newsApi,
-            page = page,
+            page = lastPage,
             handleResponse = this::insertResultIntoDb,
             ioExecutor = ioExecutor
         )
 
         val refreshTrigger = MutableLiveData<Unit>()
         val refreshState = Transformations.switchMap(refreshTrigger) {
-            refresh(page)
+            refresh(lastPage)
         }
 
         val config = PagedList.Config.Builder()
@@ -46,7 +60,7 @@ class NewsRepositoryImpl(
             .setPrefetchDistance(5)
             .build()
 
-        val livePagedList = LivePagedListBuilder(newsDao.getPage(page), config)
+        val livePagedList = LivePagedListBuilder(newsDao.getSourceFactory(), config)
             .setBoundaryCallback(boundaryCallback)
             .build()
 

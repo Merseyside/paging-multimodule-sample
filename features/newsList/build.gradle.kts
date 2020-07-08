@@ -14,4 +14,6 @@ android {
 
 dependencies {
     implementation(project(BuildModules.Libraries.MerseyLibs.adapters))
+    implementation(project(BuildModules.Libraries.MerseyLibs.utils))
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha05")
 }

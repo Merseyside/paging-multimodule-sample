@@ -13,13 +13,16 @@ import com.merseyside.newsList.R
 import com.merseyside.newsList.databinding.FragmentNewsBinding
 import com.merseyside.newsList.di.DaggerNewsComponent
 import com.merseyside.newsList.di.NewsModule
+import com.merseyside.newsList.ui.adapter.NewsPagingAdapter
 import com.merseyside.newsList.ui.model.NewsViewModel
 
 class NewsFragment : BaseAppFragment<FragmentNewsBinding, NewsViewModel>(),
     HasCoreComponent {
 
-    val newsObserver = Observer<PagedList<NewsEntity>> {
+    private val adapter = NewsPagingAdapter()
 
+    private val newsObserver = Observer<PagedList<NewsEntity>> {
+        adapter.submitList(it)
     }
 
     override fun getBindingVariable(): Int {
@@ -48,7 +51,11 @@ class NewsFragment : BaseAppFragment<FragmentNewsBinding, NewsViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.news.observe(viewLifecycleOwner, newsObserver)
+        viewModel.newsLiveData.observe(viewLifecycleOwner, newsObserver)
+
+        binding.list.adapter = adapter
+
+        //viewModel.newsLiveData.observe(viewLifecycleOwner, newsObserver)
     }
     
 }

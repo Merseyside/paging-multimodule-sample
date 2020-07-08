@@ -1,21 +1,27 @@
 package com.merseyside.newsList.ui.model
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.databinding.ObservableField
+import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.merseyside.commons.ui.base.BaseAppViewModel
 import com.merseyside.core.NewsRepository
 import com.merseyside.core.db.news.NewsEntity
+import com.merseyside.core.network.repository.listing.Listing
 import com.merseyside.news.application
+import com.merseyside.utils.ext.log
+import kotlinx.coroutines.launch
 
 class NewsViewModel(
     private val repository: NewsRepository
 ) : BaseAppViewModel() {
 
-    private val repoResult = repository.getNews(1)
+    val newsLiveData = liveData {
+        emitSource(repository.getNews().pagedList)
+    }
 
-    val news = repoResult.pagedList
+    val listObservableField = ObservableField<PagedList<NewsEntity>>()
+
     //val networkState = repoResult.networkState
     //val refreshState = repoResult.refreshState
 
@@ -23,11 +29,5 @@ class NewsViewModel(
         return application
     }
 
-    override fun dispose() {
-        TODO("Not yet implemented")
-    }
-
-    fun getNewsPagedList(): LiveData<PagedList<NewsEntity>> {
-        return repoResult.pagedList
-    }
+    override fun dispose() {}
 }

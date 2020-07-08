@@ -15,7 +15,7 @@ import java.util.concurrent.Executor
 import kotlin.coroutines.CoroutineContext
 
 class NewsBoundaryCallback(
-    private val page: Int,
+    private var page: Int = 1,
     private val newsApi: NewsApi,
     private val handleResponse: (Int, NewsPageResponse) -> Unit,
     private val ioExecutor: Executor
@@ -40,6 +40,7 @@ class NewsBoundaryCallback(
     @MainThread
     override fun onItemAtEndLoaded(itemAtEnd: NewsEntity) {
         helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) { callback ->
+            page++
             obtainNews(callback)
         }
     }
@@ -59,7 +60,8 @@ class NewsBoundaryCallback(
 
     override fun onItemAtFrontLoaded(itemAtFront: NewsEntity) {}
 
-    private fun obtainNews(callback: PagingRequestHelper.Request.Callback) {
+    private fun obtainNews(
+        callback: PagingRequestHelper.Request.Callback) {
         launch {
             val response = newsApi.getNews(page)
             insertItemsIntoDb(response, callback)
