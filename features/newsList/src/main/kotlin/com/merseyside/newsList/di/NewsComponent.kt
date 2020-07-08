@@ -2,7 +2,7 @@ package com.merseyside.newsList.di
 
 import com.merseyside.core.di.CoreComponent
 import com.merseyside.core.di.scopes.FeatureScope
-import com.merseyside.newsList.ui.NewsFragment
+import com.merseyside.newsList.ui.view.NewsFragment
 import dagger.Component
 
 @FeatureScope

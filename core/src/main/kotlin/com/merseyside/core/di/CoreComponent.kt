@@ -3,6 +3,7 @@
 package com.merseyside.core.di
 
 import android.content.Context
+import com.merseyside.core.NewsRepository
 import com.merseyside.core.di.modules.ContextModule
 import com.merseyside.core.di.modules.DatabaseModule
 import com.merseyside.core.di.modules.NetworkModule
@@ -30,4 +31,6 @@ interface CoreComponent {
      * @return Context
      */
     fun context(): Context
+
+    fun newsRepository(): NewsRepository
 }

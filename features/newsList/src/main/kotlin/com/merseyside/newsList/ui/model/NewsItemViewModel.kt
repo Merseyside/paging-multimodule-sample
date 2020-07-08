@@ -19,7 +19,7 @@ class NewsItemViewModel(override var obj: NewsEntity) : BaseAdapterViewModel<New
 
     @Bindable
     fun getAuthor(): String {
-        return obj.author
+        return obj.author ?: "No author"
     }
 
     @Bindable

@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.room.Room
 import com.merseyside.core.db.NewsDatabase
 import com.merseyside.core.di.CoreComponent
+import com.merseyside.utils.ext.log
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,7 +26,7 @@ class DatabaseModule {
             context,
             NewsDatabase::class.java,
             "news-db"
-        ).build()
+        ).build().log()
 
 
     @Singleton

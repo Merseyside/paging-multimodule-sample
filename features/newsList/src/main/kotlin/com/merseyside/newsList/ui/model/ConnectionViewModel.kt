@@ -1,6 +1,7 @@
 package com.merseyside.newsList.ui.model
 
 import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import com.merseyside.adapters.base.BasePagedAdapter
 import com.merseyside.newsList.BR
 
@@ -10,9 +11,10 @@ class ConnectionViewModel
     var state: BasePagedAdapter.NetworkState = BasePagedAdapter.NetworkState.CONNECTED
 
     override fun onStateChanged(state: BasePagedAdapter.NetworkState) {
-        notifyPropertyChanged(BR.state)
+        notifyPropertyChanged(BR.networkState)
     }
 
+    @Bindable
     override fun getNetworkState(): BasePagedAdapter.NetworkState {
         return state
     }

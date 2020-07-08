@@ -13,7 +13,7 @@ data class NewsEntity(
     val page: Int,
 
     @ColumnInfo(name = "author")
-    val author: String,
+    val author: String?,
 
     @ColumnInfo(name = "title")
     val title: String,
@@ -25,5 +25,5 @@ data class NewsEntity(
     val url: String,
 
     @ColumnInfo(name = "imageUrl")
-    val imageUrl: String
+    val imageUrl: String?
 )

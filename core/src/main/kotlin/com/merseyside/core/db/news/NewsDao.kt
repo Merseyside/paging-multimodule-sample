@@ -15,5 +15,5 @@ interface NewsDao {
     fun getPage(page: Int) : DataSource.Factory<Int, NewsEntity>
 
     @Query("DELETE FROM news")
-    fun nukeTable()
+    suspend fun nukeTable()
 }

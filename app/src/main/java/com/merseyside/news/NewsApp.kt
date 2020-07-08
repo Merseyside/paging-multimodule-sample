@@ -10,7 +10,6 @@ class NewsApp : BaseApplication() {
 
     lateinit var coreComponent: CoreComponent
 
-
     companion object {
         private lateinit var application : NewsApp
 
@@ -22,7 +21,6 @@ class NewsApp : BaseApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
         application = this
 
         initCoreDependencyInjection()

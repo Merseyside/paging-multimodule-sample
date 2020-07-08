@@ -1,4 +1,3 @@
-
 *.apk
 *.ap_
 
@@ -26,7 +25,6 @@ local.properties
 /*/out
 /*/*/build
 /*/build
-/lib*
 /*/*/production
 *.iml
 *.iws

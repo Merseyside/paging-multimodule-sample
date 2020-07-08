@@ -12,6 +12,7 @@ object Dependencies {
     const val MATERIAL = "com.google.android.material:material:${BuildDependenciesVersions.MATERIAL}"
     const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${BuildDependenciesVersions.COROUTINES}"
     const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${BuildDependenciesVersions.COROUTINES}"
+    const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${BuildDependenciesVersions.SERIALIZATION}"
     const val ROOM = "androidx.room:room-runtime:${BuildDependenciesVersions.ROOM}"
     const val ROOM_KTX = "androidx.room:room-ktx:${BuildDependenciesVersions.ROOM}"
     const val RECYCLE_VIEW = "androidx.recyclerview:recyclerview:${BuildDependenciesVersions.RECYCLE_VIEW}"

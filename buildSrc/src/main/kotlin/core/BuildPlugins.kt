@@ -6,6 +6,7 @@
 object BuildPlugins {
     val androidApplication = PluginDesc(id = "com.android.application")
     val androidLibrary = PluginDesc(id = "com.android.library")
+    val commonsAndroidLibrary = PluginDesc(id = "core.commons.android-library")
     val kotlinKapt = PluginDesc(id = "kotlin-kapt")
     val kotlinAndroid = PluginDesc(id = "kotlin-android")
     val kotlinAndroidExtensions = PluginDesc(id = "kotlin-android-extensions")

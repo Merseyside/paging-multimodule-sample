@@ -1,5 +1,3 @@
-
-
 package core.commons
 
 import BuildAndroidConfig
@@ -17,6 +15,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -72,6 +71,7 @@ dependencies {
     implementation(Dependencies.COROUTINES)
     implementation(Dependencies.COROUTINES_ANDROID)
     implementation(Dependencies.DAGGER)
+    implementation(Dependencies.SERIALIZATION)
 
     kapt(AnnotationProcessorsDependencies.DAGGER)
 }

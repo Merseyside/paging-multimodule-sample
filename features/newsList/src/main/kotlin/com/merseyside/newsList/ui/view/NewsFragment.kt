@@ -2,7 +2,11 @@ package com.merseyside.newsList.ui.view
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.merseyside.commons.ui.base.BaseAppFragment
+import com.merseyside.core.db.news.NewsEntity
 import com.merseyside.news.BR
 import com.merseyside.news.di.HasCoreComponent
 import com.merseyside.newsList.R
@@ -13,6 +17,10 @@ import com.merseyside.newsList.ui.model.NewsViewModel
 
 class NewsFragment : BaseAppFragment<FragmentNewsBinding, NewsViewModel>(),
     HasCoreComponent {
+
+    val newsObserver = Observer<PagedList<NewsEntity>> {
+
+    }
 
     override fun getBindingVariable(): Int {
         return BR.viewModel
@@ -35,6 +43,12 @@ class NewsFragment : BaseAppFragment<FragmentNewsBinding, NewsViewModel>(),
 
     override fun getTitle(context: Context): String? {
         return getString(R.string.title)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.news.observe(viewLifecycleOwner, newsObserver)
     }
     
 }

@@ -15,6 +15,7 @@ import com.merseyside.core.network.repository.listing.Listing
 import com.merseyside.core.network.repository.mapper.NewsMapper
 import com.merseyside.newsapi.NewsApi
 import com.merseyside.newsapi.response.NewsPageResponse
+import com.merseyside.utils.Logger
 import java.util.concurrent.Executors
 
 class NewsRepositoryImpl(
@@ -24,9 +25,9 @@ class NewsRepositoryImpl(
     private val pageSize: Int
 ): NewsRepository {
 
-    val ioExecutor = Executors.newSingleThreadExecutor()
+    private val ioExecutor = Executors.newSingleThreadExecutor()
 
-    override suspend fun getNews(page: Int): Listing<NewsEntity> {
+    override fun getNews(page: Int): Listing<NewsEntity> {
         val boundaryCallback = NewsBoundaryCallback(
             newsApi = newsApi,
             page = page,
@@ -41,9 +42,11 @@ class NewsRepositoryImpl(
 
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
-            .
+            .setPageSize(10)
+            .setPrefetchDistance(5)
+            .build()
 
-        val livePagedList = LivePagedListBuilder(newsDao.getPage(page), pageSize)
+        val livePagedList = LivePagedListBuilder(newsDao.getPage(page), config)
             .setBoundaryCallback(boundaryCallback)
             .build()
 
@@ -62,21 +65,23 @@ class NewsRepositoryImpl(
 
     @MainThread
     private fun refresh(page: Int): LiveData<NetworkState> {
-        val networkState = MutableLiveData<NetworkState>()
-        networkState.value = NetworkState.Loading
 
-        try {
-            val response = newsApi.getNews(page)
-
-            newsDao.nukeTable()
-            insertResultIntoDb(page, response)
-
-            networkState.postValue(NetworkState.Success)
-        } catch (t: Throwable) {
-            networkState.value = NetworkState.Error(t, t.message)
-        }
-
-        return networkState
+        TODO("Implementation")
+//        val networkState = MutableLiveData<NetworkState>()
+//        networkState.value = NetworkState.Loading
+//
+//        try {
+//            val response = newsApi.getNews(page)
+//
+//            newsDao.nukeTable()
+//            insertResultIntoDb(page, response)
+//
+//            networkState.postValue(NetworkState.Success)
+//        } catch (t: Throwable) {
+//            networkState.value = NetworkState.Error(t, t.message)
+//        }
+//
+//        return networkState
     }
 
     private fun insertResultIntoDb(page: Int, response: NewsPageResponse) {

@@ -5,5 +5,5 @@ import com.merseyside.core.network.repository.listing.Listing
 
 interface NewsRepository {
 
-    suspend fun getNews(page: Int): Listing<NewsEntity>
+    fun getNews(page: Int): Listing<NewsEntity>
 }

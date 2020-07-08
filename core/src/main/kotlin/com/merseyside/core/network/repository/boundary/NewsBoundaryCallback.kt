@@ -7,14 +7,19 @@ import com.merseyside.core.utils.PagingRequestHelper
 import com.merseyside.core.utils.createStatusLiveData
 import com.merseyside.newsapi.NewsApi
 import com.merseyside.newsapi.response.NewsPageResponse
+import com.merseyside.utils.Logger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
+import kotlin.coroutines.CoroutineContext
 
 class NewsBoundaryCallback(
     private val page: Int,
     private val newsApi: NewsApi,
     private val handleResponse: (Int, NewsPageResponse) -> Unit,
     private val ioExecutor: Executor
-) : PagedList.BoundaryCallback<NewsEntity>() {
+) : PagedList.BoundaryCallback<NewsEntity>(), CoroutineScope {
 
     val helper = PagingRequestHelper(ioExecutor)
     val networkState = helper.createStatusLiveData()
@@ -55,7 +60,12 @@ class NewsBoundaryCallback(
     override fun onItemAtFrontLoaded(itemAtFront: NewsEntity) {}
 
     private fun obtainNews(callback: PagingRequestHelper.Request.Callback) {
-        val response = newsApi.getNews(page)
-        insertItemsIntoDb(response, callback)
+        launch {
+            val response = newsApi.getNews(page)
+            insertItemsIntoDb(response, callback)
+        }
     }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.IO
 }

@@ -25,17 +25,17 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient.Builder {
         val clientBuilder = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
             clientBuilder.addInterceptor(interceptor)
         }
-        return clientBuilder.build()
+        return clientBuilder
     }
 
     @Singleton
     @Provides
-    fun provideNewsApi(okHttpClient: OkHttpClient): NewsApi {
+    fun provideNewsApi(okHttpClient: OkHttpClient.Builder): NewsApi {
         return NewsApi(okHttpClient)
     }
 

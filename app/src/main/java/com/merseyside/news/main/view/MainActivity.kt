@@ -19,6 +19,6 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     }
 
     override fun getFragmentContainer(): Int? {
-        return binding.container.id
+        return null
     }
 }
