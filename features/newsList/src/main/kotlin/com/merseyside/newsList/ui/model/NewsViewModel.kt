@@ -23,11 +23,10 @@ class NewsViewModel(
     val newsLiveData = Transformations.switchMap(repoResult) { it.pagedList }
     val networkState = Transformations.switchMap(repoResult) { it.networkState }
 
-//    val newsLiveData = liveData {
-//        emitSource(repository.getNews().pagedList)
-//    }
-
-
+    fun retry() {
+        val listing = repoResult.value
+        listing?.retry?.invoke()
+    }
 
     val listObservableField = ObservableField<PagedList<NewsEntity>>()
 

@@ -21,9 +21,22 @@ val libraries = listOf(
     Dependencies.RETROFIT_CONVERTER
 )
 
+val merseyModules = listOf(
+    BuildModules.Libraries.MerseyLibs.utils
+)
+
+val merseyLibs = listOf(
+    Dependencies.MerseyLibs.utils
+)
+
 dependencies {
-    implementation(project(BuildModules.Libraries.MerseyLibs.utils))
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0")
+    if (Dependencies.isLocalDependencies) {
+        merseyModules.forEach { module -> api(project(module)) }
+    } else {
+        merseyLibs.forEach { lib -> api(lib) }
+    }
+
+    implementation(Dependencies.RETROFIT_SERIALIZATION)
 
     libraries.forEach { lib -> implementation(lib)}
 }

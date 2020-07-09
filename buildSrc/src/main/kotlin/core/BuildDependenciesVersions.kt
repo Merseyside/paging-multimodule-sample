@@ -25,4 +25,10 @@ object BuildDependenciesVersions {
     const val PLAY_CORE = "1.6.4"
     const val DATABINDING = "3.1.4"
     const val AUTO_SERVICE = "1.0-rc4"
+    const val LIVEDATA_KTX = "2.3.0-alpha05"
+    const val COIL = "0.8.0"
+    const val RETROFIT_SERIALIZATION = "0.5.0"
+
+    const val MERSEY_LIBS = "1.2.5"
+
 }

@@ -1,8 +1,8 @@
 <resources>
 
-    <style name="Theme.TemplateApp" parent="Theme.TemplateApp.Base"/>
+    <style name="Theme.NewsApp" parent="Theme.NewsApp.Base"/>
 
-    <style name="Theme.TemplateApp.Base.OppositeStatusBar" parent="Theme.TemplateApp.Base"/>
+    <style name="Theme.NewsApp.Base.OppositeStatusBar" parent="Theme.NewsApp.Base"/>
 
     <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">?attr/colorPrimaryDark</item>

@@ -18,7 +18,7 @@ fun setPagedList(recyclerView: RecyclerView, pagedList: PagedList<NewsEntity>?) 
 
 private fun getAdapter(recyclerView: RecyclerView): NewsPagingAdapter {
     if (recyclerView.adapter == null) {
-        recyclerView.adapter = NewsPagingAdapter()
+        //recyclerView.adapter = NewsPagingAdapter()
     }
 
     return recyclerView.adapter as NewsPagingAdapter

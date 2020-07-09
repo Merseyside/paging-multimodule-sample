@@ -9,6 +9,16 @@ plugins {
     id("core.commons.android-library")
 }
 
+val merseyModules = listOf(
+    BuildModules.Libraries.MerseyLibs.archy,
+    BuildModules.Libraries.MerseyLibs.utils
+)
+
+val merseyLibs = listOf(
+    Dependencies.MerseyLibs.archy,
+    Dependencies.MerseyLibs.utils
+)
+
 dependencies {
     implementation(project(BuildModules.CORE))
 
@@ -22,8 +32,11 @@ dependencies {
     implementation(Dependencies.NAVIGATION_UI)
     implementation(Dependencies.PAGING)
 
-    implementation(project(BuildModules.Libraries.MerseyLibs.archy))
-    implementation(project(BuildModules.Libraries.MerseyLibs.utils))
+    if (Dependencies.isLocalDependencies) {
+        merseyModules.forEach { module -> api(project(module)) }
+    } else {
+        merseyLibs.forEach { lib -> api(lib) }
+    }
 
     kapt(AnnotationProcessorsDependencies.DATABINDING)
 }

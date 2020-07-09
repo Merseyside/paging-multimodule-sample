@@ -10,6 +10,7 @@ import com.merseyside.newsapi.response.NewsPageResponse
 import com.merseyside.utils.ext.log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
 import kotlin.coroutines.CoroutineContext
@@ -40,7 +41,6 @@ class NewsBoundaryCallback(
     @MainThread
     override fun onItemAtEndLoaded(itemAtEnd: NewsEntity) {
         helper.runIfNotRunning(PagingRequestHelper.RequestType.AFTER) { callback ->
-            page++
             obtainNews(callback)
         }
     }
@@ -65,11 +65,13 @@ class NewsBoundaryCallback(
         launch {
 
             try {
-                val response = newsApi.getNews(page)
+                val response = newsApi.getNews(page + 1)
                 insertItemsIntoDb(response, callback)
+
+                page++
             } catch (e: Throwable) {
+                delay(1000)
                 callback.recordFailure(e)
-                e.message.log()
             }
         }
     }

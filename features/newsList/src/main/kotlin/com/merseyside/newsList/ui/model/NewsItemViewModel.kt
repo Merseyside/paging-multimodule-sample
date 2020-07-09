@@ -26,4 +26,9 @@ class NewsItemViewModel(override var obj: NewsEntity) : BaseAdapterViewModel<New
     fun getDescription(): String {
         return obj.description
     }
+
+    @Bindable
+    fun getImageUrl(): String? {
+        return obj.imageUrl
+    }
 }

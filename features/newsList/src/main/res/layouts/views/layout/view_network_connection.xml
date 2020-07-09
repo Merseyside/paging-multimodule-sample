@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="obj"
             type="com.merseyside.newsList.ui.model.ConnectionViewModel" />
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/normal_spacing"
+        android:background="?attr/colorError"
+        android:gravity="center"
+        app:attrBackgroundColor="@{obj.background}">
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/NewsApp.Body2"
+            android:textColor="?attr/colorOnError"
+            android:layout_toStartOf="@+id/retry"
+            android:layout_centerVertical="true"
+            android:text="@{obj.message}"
+            android:layout_marginEnd="@dimen/normal_spacing"/>
+
+        <ImageView
+            android:id="@+id/retry"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="@dimen/small_spacing"
+            app:srcCompat="@drawable/ic_retry"
+            tools:ignore="ContentDescription"
+            android:layout_centerVertical="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{view -> obj.retry()}"/>
+
+    </RelativeLayout>
 
 </layout>

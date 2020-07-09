@@ -15,4 +15,6 @@
     <dimen name="very_large_text_size">34sp</dimen>
     <dimen name="largest_text_size">48sp</dimen>
     <dimen name="second_largest_text_size">60sp</dimen>
+
+    <dimen name="icon_size">32dp</dimen>
 </resources>

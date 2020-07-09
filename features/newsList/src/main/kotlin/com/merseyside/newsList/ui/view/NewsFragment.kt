@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
+import com.merseyside.adapters.base.onItemClicked
 import com.merseyside.commons.ui.base.BaseAppFragment
 import com.merseyside.core.db.news.NewsEntity
 import com.merseyside.core.network.NetworkState
@@ -16,11 +17,21 @@ import com.merseyside.newsList.di.DaggerNewsComponent
 import com.merseyside.newsList.di.NewsModule
 import com.merseyside.newsList.ui.adapter.NewsPagingAdapter
 import com.merseyside.newsList.ui.model.NewsViewModel
+import com.merseyside.newsList.utils.openArticle
+import com.merseyside.utils.ext.isNotNullAndEmpty
 
 class NewsFragment : BaseAppFragment<FragmentNewsBinding, NewsViewModel>(),
     HasCoreComponent {
 
-    private val adapter = NewsPagingAdapter()
+    private val adapter = NewsPagingAdapter {
+        viewModel.retry()
+    }.apply {
+        onItemClicked {
+             if (it.url.isNotNullAndEmpty()) {
+                 openArticle(baseActivity, it.url)
+             }
+        }
+    }
 
     private val networkObserver = Observer<NetworkState> {
         adapter.setNetworkState(it)
@@ -50,7 +61,7 @@ class NewsFragment : BaseAppFragment<FragmentNewsBinding, NewsViewModel>(),
     }
 
     override fun getTitle(context: Context): String? {
-        return getString(R.string.title)
+        return getString(R.string.news)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,8 +71,6 @@ class NewsFragment : BaseAppFragment<FragmentNewsBinding, NewsViewModel>(),
         viewModel.networkState.observe(viewLifecycleOwner, networkObserver)
 
         binding.list.adapter = adapter
-
-        //viewModel.newsLiveData.observe(viewLifecycleOwner, newsObserver)
     }
 
     override fun onDestroyView() {

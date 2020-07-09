@@ -74,7 +74,6 @@ android {
         res.srcDir("src/main/res/")
         res.srcDir("src/main/res/layouts/fragment")
         res.srcDir("src/main/res/layouts/activity")
-        res.srcDir("src/main/res/layouts/views")
         res.srcDir("src/main/res/value/values-light")
         res.srcDir("src/main/res/value/values-night")
     }
@@ -102,13 +101,26 @@ val modulez = listOf(
 )
 
 val merseyModules = listOf(
-    BuildModules.Libraries.MerseyLibs.archy
+    BuildModules.Libraries.MerseyLibs.archy,
+    BuildModules.Libraries.MerseyLibs.utils
+)
+
+val merseyLibs = listOf(
+    Dependencies.MerseyLibs.adapters,
+    Dependencies.MerseyLibs.animators,
+    Dependencies.MerseyLibs.archy,
+    Dependencies.MerseyLibs.utils
 )
 
 dependencies {
     modulez.forEach { module -> implementation(project(module)) }
 
-    merseyModules.forEach { module -> api(project(module)) }
+    if (Dependencies.isLocalDependencies) {
+        merseyModules.forEach { module -> api(project(module)) }
+    } else {
+        merseyLibs.forEach { lib -> api(lib) }
+    }
+
     androidLibs.forEach { lib -> implementation(lib) }
 
     compileOnly("javax.annotation:jsr250-api:1.0")

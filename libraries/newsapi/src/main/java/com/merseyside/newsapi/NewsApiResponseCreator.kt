@@ -5,6 +5,7 @@ import com.merseyside.newsapi.exception.ResponseError
 import com.merseyside.newsapi.response.NewsPageResponse
 import com.merseyside.newsapi.service.NewsService
 import com.merseyside.utils.ext.log
+import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.HttpUrl
@@ -53,7 +54,7 @@ class NewsApiResponseCreator(client: OkHttpClient.Builder) {
 
     suspend fun getNews(page: Int): NewsPageResponse {
 
-        val response = newsService.getNews(0)
+        val response = newsService.getNews(page)
 
         if (response.isSuccessful) {
             return response.body()!!

@@ -4,6 +4,10 @@
 
     <application
         android:supportsRtl="true"
-        tools:ignore="AllowBackup,MissingApplicationIcon" />
+        tools:ignore="AllowBackup,MissingApplicationIcon">
+
+        <activity android:name=".ui.browser.BrowserActivity" />
+
+    </application>
 
 </manifest>
