@@ -398,6 +398,7 @@ public class PagingRequestHelper {
         public Throwable getErrorFor(@NonNull RequestType type) {
             return mErrors[type.ordinal()];
         }
+
         @Override
         public String toString() {
             return "StatusReport{"

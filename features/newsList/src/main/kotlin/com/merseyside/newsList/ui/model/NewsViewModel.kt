@@ -16,9 +16,18 @@ class NewsViewModel(
     private val repository: NewsRepository
 ) : BaseAppViewModel() {
 
-    val newsLiveData = liveData {
-        emitSource(repository.getNews().pagedList)
+    private val repoResult = liveData {
+        emit(repository.getNews())
     }
+
+    val newsLiveData = Transformations.switchMap(repoResult) { it.pagedList }
+    val networkState = Transformations.switchMap(repoResult) { it.networkState }
+
+//    val newsLiveData = liveData {
+//        emitSource(repository.getNews().pagedList)
+//    }
+
+
 
     val listObservableField = ObservableField<PagedList<NewsEntity>>()
 

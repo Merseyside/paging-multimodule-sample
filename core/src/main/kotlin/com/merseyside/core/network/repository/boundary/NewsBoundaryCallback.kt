@@ -7,7 +7,7 @@ import com.merseyside.core.utils.PagingRequestHelper
 import com.merseyside.core.utils.createStatusLiveData
 import com.merseyside.newsapi.NewsApi
 import com.merseyside.newsapi.response.NewsPageResponse
-import com.merseyside.utils.Logger
+import com.merseyside.utils.ext.log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,10 +51,10 @@ class NewsBoundaryCallback(
      */
     private fun insertItemsIntoDb(
         response: NewsPageResponse,
-        it: PagingRequestHelper.Request.Callback) {
+        callback: PagingRequestHelper.Request.Callback) {
         ioExecutor.execute {
+            callback.recordSuccess()
             handleResponse(page, response)
-            it.recordSuccess()
         }
     }
 
@@ -63,8 +63,14 @@ class NewsBoundaryCallback(
     private fun obtainNews(
         callback: PagingRequestHelper.Request.Callback) {
         launch {
-            val response = newsApi.getNews(page)
-            insertItemsIntoDb(response, callback)
+
+            try {
+                val response = newsApi.getNews(page)
+                insertItemsIntoDb(response, callback)
+            } catch (e: Throwable) {
+                callback.recordFailure(e)
+                e.message.log()
+            }
         }
     }
 

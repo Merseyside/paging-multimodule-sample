@@ -3,10 +3,11 @@ package com.merseyside.core.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.merseyside.core.network.NetworkState
+import retrofit2.Response.error
 
-private fun getErrorMessage(report: PagingRequestHelper.StatusReport): String {
+private fun getError(report: PagingRequestHelper.StatusReport): Throwable {
     return PagingRequestHelper.RequestType.values().mapNotNull {
-        report.getErrorFor(it)?.message
+        report.getErrorFor(it)
     }.first()
 }
 
@@ -15,11 +16,12 @@ fun PagingRequestHelper.createStatusLiveData(): LiveData<NetworkState> {
     addListener { report ->
         when {
             report.hasRunning() -> liveData.postValue(NetworkState.Loading)
-            report.hasError() -> liveData.postValue(
-                report.getErrorFor(PagingRequestHelper.RequestType.INITIAL)?.let {
-                    NetworkState.Error(
-                        it, getErrorMessage(report))
-                })
+            report.hasError() -> {
+                val error = getError(report)
+
+                liveData.postValue(
+                    NetworkState.Error(error, error.message))
+            }
             else -> liveData.postValue(NetworkState.Success)
         }
     }

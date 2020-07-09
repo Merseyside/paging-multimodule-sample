@@ -30,6 +30,18 @@ class NewsPagingAdapter : BasePagedAdapter<NewsEntity, NewsItemViewModel>(COMPAR
         return ConnectionViewModel()
     }
 
+    fun setNetworkState(state: com.merseyside.core.network.NetworkState) {
+        when(state) {
+            is com.merseyside.core.network.NetworkState.Error -> {
+                setNetworkState(NetworkState.ERROR)
+            }
+
+            is com.merseyside.core.network.NetworkState.Success -> {
+                setNetworkState(NetworkState.CONNECTED)
+            }
+        }
+    }
+
     companion object {
         val COMPARATOR = object : DiffUtil.ItemCallback<NewsEntity>() {
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.merseyside.commons.ui.base.BaseAppFragment
 import com.merseyside.core.db.news.NewsEntity
+import com.merseyside.core.network.NetworkState
 import com.merseyside.news.BR
 import com.merseyside.news.di.HasCoreComponent
 import com.merseyside.newsList.R
@@ -20,6 +21,10 @@ class NewsFragment : BaseAppFragment<FragmentNewsBinding, NewsViewModel>(),
     HasCoreComponent {
 
     private val adapter = NewsPagingAdapter()
+
+    private val networkObserver = Observer<NetworkState> {
+        adapter.setNetworkState(it)
+    }
 
     private val newsObserver = Observer<PagedList<NewsEntity>> {
         adapter.submitList(it)
@@ -52,10 +57,18 @@ class NewsFragment : BaseAppFragment<FragmentNewsBinding, NewsViewModel>(),
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.newsLiveData.observe(viewLifecycleOwner, newsObserver)
+        viewModel.networkState.observe(viewLifecycleOwner, networkObserver)
 
         binding.list.adapter = adapter
 
         //viewModel.newsLiveData.observe(viewLifecycleOwner, newsObserver)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        viewModel.newsLiveData.removeObserver(newsObserver)
+        viewModel.networkState.removeObserver(networkObserver)
     }
     
 }

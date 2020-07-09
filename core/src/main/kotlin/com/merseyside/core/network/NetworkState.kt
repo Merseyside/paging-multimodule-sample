@@ -56,4 +56,5 @@ sealed class NetworkState {
      * @return True if is error state, otherwise false.
      */
     fun isError() = this is Error
+
 }
