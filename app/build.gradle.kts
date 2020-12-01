@@ -1,4 +1,5 @@
 import core.dependencies.Dependencies
+import core.isLocalDependencies
 
 plugins {
     plugin(BuildPlugins.androidApplication)
@@ -114,7 +115,7 @@ val merseyLibs = listOf(
 dependencies {
     modulez.forEach { module -> implementation(project(module)) }
 
-    if (Dependencies.isLocalDependencies) {
+    if (isLocalDependencies()) {
         merseyModules.forEach { module -> api(project(module)) }
     } else {
         merseyLibs.forEach { lib -> api(lib) }

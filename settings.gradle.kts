@@ -9,7 +9,7 @@ include(
     ":libraries:newsapi"
 )
 
-private val isLocalDependencies = true
+private val isLocalDependencies = false
 
 if (isLocalDependencies) {
 

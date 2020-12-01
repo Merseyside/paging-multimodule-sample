@@ -7,9 +7,6 @@ package core.dependencies
  * other library modules to build.
  */
 object Dependencies {
-
-    val isLocalDependencies = true
-
     const val KOTLIN = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${BuildDependenciesVersions.KOTLIN}"
     const val APPCOMPAT = "androidx.appcompat:appcompat:${BuildDependenciesVersions.APPCOMPAT}"
     const val MATERIAL = "com.google.android.material:material:${BuildDependenciesVersions.MATERIAL}"
