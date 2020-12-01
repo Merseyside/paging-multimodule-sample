@@ -16,8 +16,8 @@ repositories {
     maven("https://ci.android.com/builds/submitted/5837096/androidx_snapshot/latest/repository")
 }
 
-val kotlin = "1.3.72"
-val gradle = "4.0.0"
+val kotlin = "1.4.20"
+val gradle = "4.0.1"
 val multiplatform = "0.6.1"
 val mavenVersion = "2.1"
 val navigation = "2.3.0-alpha02"
@@ -38,7 +38,6 @@ dependencies {
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detect")
     implementation("com.pinterest:ktlint:$ktlint")
     implementation("com.github.ben-manes:gradle-versions-plugin:$gradleVersions")
-
 }
 
 kotlinDslPluginOptions {

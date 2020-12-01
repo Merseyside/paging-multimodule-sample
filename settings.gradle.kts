@@ -1,4 +1,3 @@
-include(":libraries:newsapi")
 enableFeaturePreview("GRADLE_METADATA")
 
 include(
@@ -10,7 +9,7 @@ include(
     ":libraries:newsapi"
 )
 
-private val isLocalDependencies = false
+private val isLocalDependencies = true
 
 if (isLocalDependencies) {
 

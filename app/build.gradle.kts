@@ -4,7 +4,6 @@ plugins {
     plugin(BuildPlugins.androidApplication)
     plugin(BuildPlugins.kotlinAndroid)
     plugin(BuildPlugins.kotlinKapt)
-    plugin(BuildPlugins.kotlinAndroidExtensions)
     plugin(BuildPlugins.kotlinSerialization)
     plugin(BuildPlugins.navigationArgs)
 }

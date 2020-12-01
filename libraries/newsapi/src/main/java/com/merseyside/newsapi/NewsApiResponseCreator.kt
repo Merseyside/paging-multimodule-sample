@@ -4,10 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.merseyside.newsapi.exception.ResponseError
 import com.merseyside.newsapi.response.NewsPageResponse
 import com.merseyside.newsapi.service.NewsService
-import com.merseyside.utils.ext.log
-import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.HttpUrl
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -20,6 +17,13 @@ class NewsApiResponseCreator(client: OkHttpClient.Builder) {
 
     init {
         initService(client)
+    }
+
+    private fun createJson(): Json {
+        return Json {
+            isLenient = false
+            ignoreUnknownKeys = true
+        }
     }
 
     private fun initService(builder: OkHttpClient.Builder) {
@@ -44,10 +48,7 @@ class NewsApiResponseCreator(client: OkHttpClient.Builder) {
         newsService = Retrofit.Builder()
             .client(builder.build())
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(Json(JsonConfiguration(
-                ignoreUnknownKeys = true,
-                isLenient = true
-            )).asConverterFactory(contentType))
+            .addConverterFactory(createJson().asConverterFactory(contentType))
             .build()
             .create(NewsService::class.java)
     }

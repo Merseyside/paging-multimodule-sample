@@ -24,15 +24,7 @@ class NewsApp : BaseApplication() {
         application = this
 
         initCoreDependencyInjection()
-        //initAppDependencyInjection()
     }
-
-//    private fun initAppDependencyInjection() {
-//        DaggerAppComponent
-//            .builder()
-//            .coreComponent(coreComponent)
-//            .build().inject(this)
-//    }
 
     private fun initCoreDependencyInjection() {
         coreComponent = DaggerCoreComponent

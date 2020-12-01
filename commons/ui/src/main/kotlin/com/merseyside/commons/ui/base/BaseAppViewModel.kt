@@ -1,7 +1,6 @@
 package com.merseyside.commons.ui.base
 
-import com.merseyside.archy.presentation.model.BaseViewModel
+import android.app.Application
+import com.merseyside.archy.presentation.model.AndroidViewModel
 
-abstract class BaseAppViewModel : BaseViewModel() {
-
-}
+abstract class BaseAppViewModel(application: Application): AndroidViewModel(application)

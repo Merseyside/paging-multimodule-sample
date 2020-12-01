@@ -1,7 +1,7 @@
 import core.dependencies.Dependencies
 
 plugins {
-    id("core.commons.android-dynamic-feature")
+    plugin(BuildPlugins.dynamicFeature)
 }
 
 android {
@@ -15,12 +15,19 @@ android {
 
 val merseyModules = listOf(
     BuildModules.Libraries.MerseyLibs.archy,
+    BuildModules.Libraries.MerseyLibs.adapters,
     BuildModules.Libraries.MerseyLibs.utils
 )
 
 val merseyLibs = listOf(
     Dependencies.MerseyLibs.archy,
+    Dependencies.MerseyLibs.adapters,
     Dependencies.MerseyLibs.utils
+)
+
+val libs = listOf(
+    Dependencies.LIVEDATA_KTX,
+    Dependencies.LIFECYCLE_VIEWMODEL
 )
 
 dependencies {
@@ -30,5 +37,5 @@ dependencies {
         merseyLibs.forEach { lib -> api(lib) }
     }
 
-    implementation(Dependencies.LIVEDATA_KTX)
+    libs.forEach { lib -> implementation(lib)}
 }
